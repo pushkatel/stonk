@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import axios from 'axios';
-import { TIINGO, MARKETSTACK } from './config';
+import key from './config';
 
 class InputForm extends Component {
   constructor() {
@@ -19,10 +19,9 @@ class InputForm extends Component {
   async handleSubmit(event) {
     event.preventDefault();
     try {
-      const MARKETSTACK = 'b14ad1d5a67199e7697896c18a73a524';
       const today = moment().format('YYYY-MM-DD');
       const { data } = await axios.get(
-        `http://api.marketstack.com/v1/eod?access_key=${MARKETSTACK}&symbols=${this.state.stock}&date_from=${this.state.date}&date_to=${today}`
+        `http://api.marketstack.com/v1/eod?access_key=${key.MARKETSTACK}&symbols=${this.state.stock}&date_from=${this.state.date}&date_to=${today}`
       );
       const curPrice = data.data.shift().adj_close; //today price
       const pastPrice = data.data.pop().adj_close; //price at searched date
