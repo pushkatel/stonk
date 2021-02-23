@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 30vmin;
   pointer-events: none;
 }
 
@@ -35,4 +35,27 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.inputs {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+label {
+}
+
+.submit {
+  padding: 25px;
+}
+
+button {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }
