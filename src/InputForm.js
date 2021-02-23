@@ -7,9 +7,9 @@ class InputForm extends Component {
   constructor() {
     super();
     this.state = {
-      stock: '',
-      date: '',
-      amount: '',
+      stock: 'AAPL',
+      amount: '1000',
+      date: '2020-10-26',
       value: null,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -18,19 +18,21 @@ class InputForm extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
+
     try {
-      const today = moment().format('YYYY-MM-DD');
-      const { data } = await axios.get(
-        `http://api.marketstack.com/v1/eod?access_key=${key.MARKETSTACK}&symbols=${this.state.stock}&date_from=${this.state.date}&date_to=${today}`
+      const past = await axios.get(
+        `https://api.marketstack.com/v1/eod/${this.state.date}?access_key=${key.MARKETSTACK}&symbols=${this.state.stock}`
       );
-      const curPrice = data.data.shift().adj_close; //today price
-      const pastPrice = data.data.pop().adj_close; //price at searched date
+      const cur = await axios.get(
+        `https://api.marketstack.com/v1/eod/latest?access_key=${key.MARKETSTACK}&symbols=${this.state.stock}`
+      );
+      const pastPrice = past.data.data[0].adj_close; //price at searched date
+      const curPrice = cur.data.data[0].adj_close; //today price
       const prevBought = parseInt(this.state.amount) / pastPrice; //shares bought at past price
       const newValue = Math.round(prevBought * curPrice);
       this.setState({ ...this.state, value: newValue });
-      //console.log(newValue);
-      console.log(data);
     } catch (error) {
+      alert('enter valid stock');
       console.log(error);
     }
   }
@@ -47,7 +49,7 @@ class InputForm extends Component {
     return (
       <form id='form'>
         <div className='body'>
-          <div classname='container'>
+          <div className='container'>
             <label htmlFor='stock'>
               Stonk:
               <input name='stock' onChange={handleChange} value={stock} />

@@ -8,7 +8,7 @@ function App() {
       <header className='App-header'>
         <img src={logo} className='App-logo' alt='logo' />
         <p>So you wish you had bought some STONKS?</p>
-        <div classsName='form'>
+        <div className='form'>
           <InputForm />
         </div>
       </header>
